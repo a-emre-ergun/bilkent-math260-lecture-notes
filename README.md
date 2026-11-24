@@ -18,11 +18,12 @@ The chapters are in the order they were taught in the Spring 2026 semester. Chap
 4. [Chapter 11: The Analysis of Variance (ANOVA)](notes/ch11-anova.md)
 5. [Chapter 12: Regression and Correlation](notes/ch12-simple-linear-regression.md)
 
-All five chapters are also in one PDF: [MATH260_Lecture_Notes.pdf](MATH260_Lecture_Notes_Final.pdf)
+All five chapters are also in one PDF: [MATH260_Lecture_Notes_Final.pdf](MATH260_Lecture_Notes_Final.pdf)
 
 ## Formats
 
+- `handwritten/`: my original handwritten notes.
 - `notes/`: the chapters in Markdown. You can read them directly on GitHub.
-- `MATH260_Lecture_Notes.pdf`: all chapters in one file.
+- `MATH260_Lecture_Notes_Final.pdf`: all chapters in one file.
 - `latex/`: the LaTeX source of the PDF. To build it, run `cd latex && latexmk -pdf main.tex`.
 - `figures/`: the graphs used in the notes. You can redraw them with `python scripts/make_figs.py` (needs numpy, scipy and matplotlib).
