@@ -1,0 +1,266 @@
+# Chapter 11: The Analysis of Variance (ANOVA)
+
+*Bilkent University MATH 260 lecture notes, Spring 2026. [Back to contents](../README.md)*
+
+## 11.1 Single-Factor ANOVA
+
+Single-factor ANOVA focuses on the means of two or more populations. There are $I$ populations (treatments) with means $\mu_1,\mu_2,\dots,\mu_I$:
+
+$$
+H_0:\mu_1=\mu_2=\dots=\mu_I,\qquad H_a: \text{at least one } \mu_i \text{ is different from the others}.
+$$
+
+**Notation and assumptions.**
+
+- $X_{ij}$: the random variable denoting the $j$th measurement from the $i$th population (treatment).
+
+- $x_{ij}$: the observed value of $X_{ij}$.
+
+- Different samples are independent of each other, and the $X_{ij}$’s within a sample are also independent of each other.
+
+The ANOVA here is developed for the case of equal sample sizes, which is called a **balanced study**. Let $J$ be the number of observations in each sample. Then the $i$th sample mean is
+
+$$
+\bar{X}_{i\cdot} = \frac{1}{J}\sum_{j=1}^J X_{ij},\qquad i=1,\dots,I,
+$$
+
+and, for the $IJ$ observations, the **grand mean** is defined as
+
+$$
+\bar{X}_{\cdot\cdot} = \frac{1}{IJ}\sum_{i=1}^I\sum_{j=1}^J X_{ij} = \frac{1}{IJ}\sum_{i=1}^I J\bar{X}_{i\cdot} = \frac{1}{I}\sum_{i=1}^I\bar{X}_{i\cdot}.
+$$
+
+**ANOVA assumptions.** The $I$ populations (treatments) are normally distributed with the same variance $\sigma^2$. Then the $X_{ij}$’s are independent and normal with $E(X_{ij})=\mu_i$ and $V(X_{ij})=\sigma^2$.
+
+**Sums of squares and mean squares.** There are two types of variation:
+
+1.  between-sample variation,
+
+2.  within-sample variation.
+
+**Definition.** A measure of between-sample variation is called the **treatment sum of squares** (SSTr), defined by
+
+$$
+\mathrm{SSTr} = \sum_{i=1}^I\sum_{j=1}^J(\bar{X}_{i\cdot}-\bar{X}_{\cdot\cdot})^2 = \sum_{i=1}^I J(\bar{X}_{i\cdot}-\bar{X}_{\cdot\cdot})^2
+= J\left[(\bar{X}_{1\cdot}-\bar{X}_{\cdot\cdot})^2+\dots+(\bar{X}_{I\cdot}-\bar{X}_{\cdot\cdot})^2\right].
+$$
+
+A measure of within-sample variation is called the **error sum of squares** (SSE), defined by
+
+$$
+\mathrm{SSE} = \sum_{i=1}^I\sum_{j=1}^J(X_{ij}-\bar{X}_{i\cdot})^2 = \sum_{i=1}^I(J-1)S_i^2 = (J-1)\left[S_1^2+\dots+S_I^2\right].
+$$
+
+**Theorem (the ANOVA identity).**
+
+$$
+\mathrm{SST} = \mathrm{SSTr}+\mathrm{SSE},\qquad\text{where}\qquad \mathrm{SST}=\sum_{i=1}^I\sum_{j=1}^J(x_{ij}-\bar{x}_{\cdot\cdot})^2
+$$
+
+is the **total sum of squares** ($x_{ij}$ and $\bar{x}_{\cdot\cdot}$ are the observed values). Here SSTr is the *explained* variation, as it could happen due to a treatment effect; SSE is called the *unexplained* variation, as it occurs due to randomness within each sample. If the between-sample variation is large relative to the within-sample variation (more precisely, if MSTr is large relative to MSE, see below), we reject $H_0$.
+
+**Theorem.** When the ANOVA assumptions are satisfied,
+
+1.  SSE and SSTr are independent;
+
+2.  $\dfrac{\mathrm{SSE}}{\sigma^2}\sim\chi^2_{IJ-I}$;
+
+3.  when $H_0:\mu_1=\dots=\mu_I$ is true, $\dfrac{\mathrm{SSTr}}{\sigma^2}\sim\chi^2_{I-1}$.
+
+*Proof.* (i) SSTr consists of the $\bar{X}_{i\cdot}$’s and SSE consists of the $S_i^2$’s; under the normality assumption of ANOVA, $\bar{X}_{i\cdot}$ and $S_i^2$ are independent, so SSTr and SSE are independent.
+
+\(ii\)
+
+$$
+\frac{\mathrm{SSE}}{\sigma^2} = \frac{(J-1)\left[S_1^2+\dots+S_I^2\right]}{\sigma^2}
+= \underbrace{\frac{(J-1)S_1^2}{\sigma^2}}_{\sim\chi^2_{J-1}}+\dots+\underbrace{\frac{(J-1)S_I^2}{\sigma^2}}_{\sim\chi^2_{J-1}}
+\sim\chi^2_{I(J-1)}=\chi^2_{IJ-I},
+$$
+
+since the $I$ terms are independent.
+
+\(iii\) Define $Y_i=\bar{X}_{i\cdot}$. Under $H_0$, $Y_1,\dots,Y_I$ are independent and normally distributed with the same mean and variance $\sigma^2/J$. So, with $S_Y^2=\frac{1}{I-1}\sum_i(Y_i-\bar{Y})^2$,
+
+$$
+\frac{(I-1)S_Y^2}{\sigma^2/J}\sim\chi^2_{I-1},
+\qquad
+\frac{(I-1)S_Y^2}{\sigma^2/J} = \frac{(I-1)J}{\sigma^2}\cdot\frac{1}{I-1}\sum_{i=1}^I(Y_i-\bar{Y})^2
+= \frac{J}{\sigma^2}\sum_{i=1}^I(\bar{X}_{i\cdot}-\bar{X}_{\cdot\cdot})^2 = \frac{\mathrm{SSTr}}{\sigma^2}.
+$$
+
+Hence $\mathrm{SSTr}/\sigma^2\sim\chi^2_{I-1}$. $\square$
+
+Analogous to the definition of the sample variance, we give the following definitions.
+
+**Definition.** The **mean square for treatments** (MSTr) and the **mean square for error** (MSE) are
+
+$$
+\mathrm{MSTr}=\frac{\mathrm{SSTr}}{I-1},\qquad \mathrm{MSE}=\frac{\mathrm{SSE}}{IJ-I}.
+$$
+
+**Proposition.** When the ANOVA assumptions are satisfied,
+
+1.  if $H_0$ is true, $E(\mathrm{MSTr})=\sigma^2$, i.e. MSTr is then an unbiased estimator of $\sigma^2$ (when $H_0$ is false, $E(\mathrm{MSTr})\gt \sigma^2$);
+
+2.  $E(\mathrm{MSE})=\sigma^2$, i.e. MSE is always an unbiased estimator of $\sigma^2$.
+
+*Proof.* If $X\sim\chi^2_\nu$, then $E(X)=\nu$, since $X=Z_1^2+\dots+Z_\nu^2$ and $E(X)=E(Z_1^2)+\dots+E(Z_\nu^2)=1+\dots+1=\nu$.
+
+\(i\) $E(\mathrm{MSTr}) = E\!\left(\dfrac{\mathrm{SSTr}}{I-1}\right) = \dfrac{1}{I-1}E(\mathrm{SSTr})$ $\;(**)$. Under $H_0$ we know $E\!\left(\dfrac{\mathrm{SSTr}}{\sigma^2}\right)=I-1 \Rightarrow E(\mathrm{SSTr})=\sigma^2(I-1)$ $\;(***)$. Substituting $(***)$ into $(**)$, we get $E(\mathrm{MSTr})=\sigma^2$.
+
+\(ii\) $E(\mathrm{MSE}) = E\!\left(\dfrac{\mathrm{SSE}}{IJ-I}\right) = \dfrac{1}{IJ-I}E(\mathrm{SSE}) = \dfrac{1}{IJ-I}(IJ-I)\sigma^2 = \sigma^2.$ $\square$
+
+**The $F$ test.**
+
+- If $H_0$ is true, then MSTr and MSE are about the same, namely $\dfrac{\mathrm{MSTr}}{\mathrm{MSE}}\approx1$.
+
+- If $H_a$ is true, then MSTr tends to be larger than MSE, and the ratio $\dfrac{\mathrm{MSTr}}{\mathrm{MSE}}\gt 1$.
+
+Recall: if $Y_1\sim\chi^2_{\nu_1}$ and $Y_2\sim\chi^2_{\nu_2}$ are independent, then $F=\dfrac{Y_1/\nu_1}{Y_2/\nu_2}\sim F_{\nu_1,\nu_2}$.
+
+**Proposition.** When the ANOVA assumptions are satisfied and $H_0:\mu_1=\dots=\mu_I$ is true, the test statistic $F=\mathrm{MSTr}/\mathrm{MSE}$ has an $F$ distribution with $I-1$ numerator df and $IJ-I$ denominator df.
+
+*Proof.*
+
+$$
+F=\frac{\mathrm{MSTr}}{\mathrm{MSE}}=\frac{\mathrm{SSTr}/(I-1)}{\mathrm{SSE}/(IJ-I)}
+=\frac{\overbrace{[\mathrm{SSTr}/\sigma^2]}^{\sim\chi^2_{I-1}}/(I-1)}{\underbrace{[\mathrm{SSE}/\sigma^2]}_{\sim\chi^2_{IJ-I}}/(IJ-I)}\sim F_{I-1,\,IJ-I},
+$$
+
+using the independence of SSTr and SSE. $\square$
+
+**Single-factor ANOVA test.**
+
+- $H_0:\mu_1=\mu_2=\dots=\mu_I$.
+
+- $H_a$: at least one $\mu_i$ is different from the others.
+
+- Test statistic value: $f=\dfrac{\mathrm{MSTr}}{\mathrm{MSE}}=\dfrac{\mathrm{SSTr}/(I-1)}{\mathrm{SSE}/(IJ-I)}$.
+
+- Rejection region: $f\ge F_{\alpha,I-1,IJ-I}$.
+
+- $P$-value: the area under the $F_{I-1,IJ-I}$ curve to the right of the calculated $f$.
+
+**ANOVA table.**
+
+| Source of variation |   df   |              Sum of squares               |             Mean square             |             $f$              |
+|:--------------------|:------:|:-----------------------------------------:|:-----------------------------------:|:----------------------------:|
+| Treatments          | $I-1$  |                   SSTr                    | $\mathrm{MSTr}=\mathrm{SSTr}/(I-1)$ | $\mathrm{MSTr}/\mathrm{MSE}$ |
+| Error               | $IJ-I$ |                    SSE                    | $\mathrm{MSE}=\mathrm{SSE}/(IJ-I)$  |                              |
+| Total               | $IJ-1$ | $\mathrm{SST}=\mathrm{SSTr}+\mathrm{SSE}$ |                                     |                              |
+
+## 11.2 Multiple Comparisons in ANOVA
+
+When $H_0$ is rejected ($H_a$ is accepted), we may want to find which $\mu_i$’s are different from the others. A method for such an analysis is called a **multiple comparisons procedure**. These methods often follow the steps below:
+
+1.  Calculate a CI for each pairwise difference $\mu_i-\mu_j$ with $i\lt j$ (there are $\binom{I}{2}$ of them, e.g. $\binom{5}{2}=10$ for $I=5$).
+
+2.  If the CI does not include 0, then $\mu_i-\mu_j$ cannot be 0, which means $\mu_i$ and $\mu_j$ are significantly different.
+
+3.  Carry out step 2 for each $\mu_i-\mu_j$ with $i\lt j$.
+
+We can conduct the preceding steps using different methods; here we introduce Tukey’s procedure.
+
+**Tukey’s procedure.**
+
+**Definition.** Let $Z_1,\dots,Z_m$ be independent standard normal random variables, and let $W$ be independent of them with a chi-squared distribution with $\nu$ df. Then
+
+$$
+Q = \frac{\max_{i,j}|Z_i-Z_j|}{\sqrt{W/\nu}} = \frac{\max(Z_1,\dots,Z_m)-\min(Z_1,\dots,Z_m)}{\sqrt{W/\nu}} \qquad(1)
+$$
+
+has a **studentized range distribution**. The critical value is denoted $Q_{\alpha,m,\nu}$.
+
+The quantities in this definition are
+
+$$
+Z_i=\frac{\bar{X}_{i\cdot}-\mu_i}{\sigma/\sqrt{J}},\qquad m=I,\qquad W=\frac{\mathrm{SSE}}{\sigma^2}=\frac{(IJ-I)\mathrm{MSE}}{\sigma^2},\qquad \nu=IJ-I. \qquad(2)
+$$
+
+Substituting (2) into (1), we get
+
+$$
+Q = \frac{\max_{i,j}\left|\dfrac{\bar{X}_{i\cdot}-\mu_i}{\sigma/\sqrt{J}}-\dfrac{\bar{X}_{j\cdot}-\mu_j}{\sigma/\sqrt{J}}\right|}{\sqrt{\dfrac{(IJ-I)\mathrm{MSE}}{\sigma^2}\Big/(IJ-I)}}
+$$
+
+$$
+= \frac{\max_{i,j}\left|(\bar{X}_{i\cdot}-\bar{X}_{j\cdot})-(\mu_i-\mu_j)\right|\big/(\sigma/\sqrt{J})}{\frac{1}{\sigma}\sqrt{\mathrm{MSE}}}
+= \frac{\max_{i,j}\left|(\bar{X}_{i\cdot}-\bar{X}_{j\cdot})-(\mu_i-\mu_j)\right|}{\sqrt{\mathrm{MSE}/J}}. \qquad(3)
+$$
+
+We know
+
+$$
+P(Q\le Q_{\alpha,I,IJ-I})=1-\alpha. \qquad(4)
+$$
+
+Now substitute (3) into (4) to obtain the CIs:
+
+$$
+\begin{aligned}
+1-\alpha &= P\!\left(\frac{\max_{i,j}|(\bar{X}_{i\cdot}-\bar{X}_{j\cdot})-(\mu_i-\mu_j)|}{\sqrt{\mathrm{MSE}/J}}\le Q_{\alpha,I,IJ-I}\right)\\
+&= P\!\left(\frac{|(\bar{X}_{i\cdot}-\bar{X}_{j\cdot})-(\mu_i-\mu_j)|}{\sqrt{\mathrm{MSE}/J}}\le Q_{\alpha,I,IJ-I}\ \text{ for all } i,j\right)\\
+&= P\!\left(-Q_{\alpha,I,IJ-I}\le\frac{(\bar{X}_{i\cdot}-\bar{X}_{j\cdot})-(\mu_i-\mu_j)}{\sqrt{\mathrm{MSE}/J}}\le Q_{\alpha,I,IJ-I}\ \text{ for all } i,j\right)\\
+&= P\Big(\bar{X}_{i\cdot}-\bar{X}_{j\cdot}-Q_{\alpha,I,IJ-I}\sqrt{\mathrm{MSE}/J}\le\mu_i-\mu_j\\
+&\qquad\quad \le\bar{X}_{i\cdot}-\bar{X}_{j\cdot}+Q_{\alpha,I,IJ-I}\sqrt{\mathrm{MSE}/J}\ \text{ for all } i,j\Big).
+\end{aligned}
+$$
+
+**Proposition.** For each $i\lt j$, form the interval
+
+$$
+\bar{x}_{i\cdot}-\bar{x}_{j\cdot}\pm Q_{\alpha,I,IJ-I}\sqrt{\mathrm{MSE}/J}.
+$$
+
+There are $\binom{I}{2}$ such intervals, and their **simultaneous** confidence level is $100(1-\alpha)\%$. The margin of error $Q_{\alpha,I,IJ-I}\sqrt{\mathrm{MSE}/J}$ is called **Tukey’s honestly significant difference** (HSD).
+
+**Tukey’s method for identifying significantly different $\mu_i$’s.**
+
+1.  List the sample means in increasing order, together with the corresponding population (treatment).
+
+2.  Starting from the leftmost (smallest) mean, compare the other means with it. If the CI for a difference includes 0, underscore those means together (they are not significantly different).
+
+3.  Do the same for the other means. Then we can judge which $\mu_i$’s are significantly different.
+
+**Example.** Suppose that $I=5$ with $\bar{x}_{2\cdot}\le\bar{x}_{5\cdot}\le\bar{x}_{1\cdot}\le\bar{x}_{3\cdot}\le\bar{x}_{4\cdot}$. Let us say
+
+- the CI for $\mu_2-\mu_5$ includes 0,
+
+- the CI for $\mu_1-\mu_2$ includes 0,
+
+- the CI for $\mu_2-\mu_3$ does not include 0,
+
+- the CI for $\mu_2-\mu_4$ does not include 0,
+
+- the CI for $\mu_1-\mu_3$ includes 0.
+
+Then, in the order of the sample means,
+
+|             |                    |                    |                    |                    |                    |
+|:------------|:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
+| Group       |         2          |         5          |         1          |         3          |         4          |
+| Sample mean | $\bar{x}_{2\cdot}$ | $\bar{x}_{5\cdot}$ | $\bar{x}_{1\cdot}$ | $\bar{x}_{3\cdot}$ | $\bar{x}_{4\cdot}$ |
+
+treatments 2, 5 and 1 are underscored together (not significantly different), and $\mu_2$ is significantly different from $\mu_3$ and $\mu_4$.
+
+For the second step in Tukey’s method, instead of constructing the CI for each difference, we can check the condition
+
+$$
+|\bar{x}_{i\cdot}-\bar{x}_{j\cdot}| \lt  Q_{\alpha,I,IJ-I}\sqrt{\mathrm{MSE}/J}.
+$$
+
+If this is true, then the CI includes 0.
+
+**CIs for other parametric functions.** Consider $\theta=\sum_i c_i\mu_i$, where the $c_i$’s are constants. The natural estimator of $\theta$ is $\hat\theta=\sum_i c_i\bar{X}_{i\cdot}$. We need $\dfrac{\hat\theta-\theta}{\sigma_{\hat\theta}}$, so we first find $V(\hat\theta)$:
+
+$$
+V(\hat\theta) = V\!\left(\sum_i c_i\bar{X}_{i\cdot}\right) = \sum_i c_i^2V(\bar{X}_{i\cdot}) = \frac{\sigma^2}{J}\sum_i c_i^2,
+\qquad
+\sigma_{\hat\theta}=\sqrt{\frac{\sigma^2}{J}\sum_i c_i^2}.
+$$
+
+So we have $\dfrac{\sum_i c_i\bar{X}_{i\cdot}-\sum_i c_i\mu_i}{\sqrt{\frac{\sigma^2}{J}\sum_i c_i^2}}$. Since $\sigma$ is unknown and its estimator is $\sqrt{\mathrm{MSE}}$ (MSE estimates $\sigma^2$), we write the CI
+
+$$
+\sum_i c_i\bar{x}_{i\cdot}\pm t_{\alpha/2,\nu}\sqrt{\frac{\mathrm{MSE}}{J}\sum_i c_i^2},\qquad \nu=IJ-I.
+$$

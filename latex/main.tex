@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../figures/}}
+\newcommand{\fig}[3]{\begin{center}\includegraphics[width=#2\textwidth]{#1.pdf}\\[-0.2em]{\small\emph{#3}}\end{center}}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\title{MATH 260 -- Lecture Notes: Final Exam Material\\
+\large Bilkent University, Spring 2026}
+\date{}
+
+\begin{document}
+\maketitle
+
+These notes cover the final exam material of MATH 260 at Bilkent University
+(Spring 2026). Notes for the earlier topics will be added later. Page references (e.g.\ ``textbook p.~528'') refer to the
+course textbook, Devore and Berk,
+\emph{Modern Mathematical Statistics with Applications}.
+
+\tableofcontents
+
+%======================================================================
+% Final exam material (chapters in the order they were lectured)
+%======================================================================
+\input{chapters/ch09-hypothesis-tests-single-sample}
+\input{chapters/ch10-inferences-two-samples}
+\input{chapters/ch13-goodness-of-fit-categorical-data}
+\input{chapters/ch11-anova}
+\input{chapters/ch12-simple-linear-regression}
+
+\end{document}
